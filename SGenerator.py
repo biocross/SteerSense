@@ -11,15 +11,25 @@ def Sn(StoRatio):
 	print Sn
 	return Sn
 
-def AlphaBetaGenerator(S, m, n, theta, psi):
+def AlphaBetaGenerator(S, m, n, theta, psi, a):
 	alpha = []
 	beta = []
 	for j in range(1, 360, 1):
-		print "Sending for alpha: " + str(S[j-1]/m)
-		alphaCurrent = psi - sinInverse(S[j-1]/m)
-		print "=======================got alpha: " + str(alphaCurrent)
-		print "Sending for beta: " + str(S[j-1]/n)
-		betaCurrent = theta - sinInverse(S[j-1]/n)
+
+		msinb = m*sin(a)
+		p = (msinb - S[j-1])/m
+		#print "SENT------alpha: " + str(p)
+		alphaCurrent = a - sinInverse(p)
+
+		#print "------ALPHA " + str(alphaCurrent)
+
+
+		msinb2 = m*sin(a)
+		q = (S[j-1] + msinb2)/m
+		#print "SENT================BETA: " + str(q)
+		betaCurrent = sinInverse(q) - a
+		
+		print "=======================BETA " + str(betaCurrent)
 		alpha.append(alphaCurrent)
 		beta.append(betaCurrent)
 
@@ -41,9 +51,9 @@ def RcGenerator(Sn, alpha, beta, wheelBase):
 
 
 
-def ValueStream(StoRatio, theta, psi, m, n, wheelBase):
+def ValueStream(StoRatio, theta, psi, m, n, wheelBase, a):
 	SnValues = Sn(StoRatio)
-	AlphaBetaValues = AlphaBetaGenerator(SnValues, m, n, theta, psi)
+	AlphaBetaValues = AlphaBetaGenerator(SnValues, m, n, theta, psi, a)
 	RcValues = RcGenerator(SnValues, AlphaBetaValues[0], AlphaBetaValues[1], wheelBase)
 
 	print RcValues

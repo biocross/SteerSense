@@ -6,3 +6,6 @@ def tan(angleInDegrees):
 
 def sinInverse(angleInRadians):
 	return math.degrees(math.asin(angleInRadians))
+
+def sin(angleInDegrees):
+	return math.sin((math.radians(angleInDegrees)))
